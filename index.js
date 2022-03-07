@@ -17,39 +17,30 @@ const client = new Client({
 // Collection is a class that extends JS native map class to include more functionality
 client.commands = new Collection();
 
-
 // fs.readdirSync() method will return an array of all the file names in a directory
 const commandFiles = fs
   .readdirSync("./commands")
   .filter((file) => file.endsWith(".js"));
 
+// return array of event file names
+const eventFiles = fs
+  .readdirSync("./events")
+  .filter((file) => file.endsWith(".js"));
+
+// command handler
 for (const file of commandFiles) {
-  const command = require(`./commands/${file}`)
+  const command = require(`./commands/${file}`);
   client.commands.set(command.data.name, command); //Collection.set(key, value)
 }
-
-// Client ready
-client.on("ready", () => {
-  console.log("BIT is Ready");
-  //console.log(client.commands)
-});
-
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
-
-  const command = client.commands.get(interaction.commandName);
-
-  if (!command) return;
-  try {
-    await command.execute(interaction);
-  } catch (err) {
-    console.error(err);
-    await interaction.reply({
-      content: "There was an error while executing this command!",
-      ephemeral: true,
-    });
+// event handler
+for (const file of eventFiles) {
+  const event = require(`./events/${file}`);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args));
   }
-});
+}
 
 client.login(process.env.TOKEN); // log in bot
 
