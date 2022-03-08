@@ -22,6 +22,9 @@ for (const file of commandFiles) {
 
 const rest = new REST({ version: "9" }).setToken(token);
 
+// Global commands guarantee to update after an hour: Routes.applicationCommands(clientID)
+// Guild commands update instantly: Routes.applicationGuildCommands(clientId, guildId)
+// Use guild commands when under development
 rest
   .put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
   .then(() => console.log("Successfully registered application commands."))
