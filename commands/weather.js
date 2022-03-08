@@ -9,7 +9,6 @@ const fetchWeather = async (zip) => {
       `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${zip}&aqi=no`
     );
     if (res.ok) {
-      console.log(`Status: ${res.status}\nSuccess`);
       const data = await res.json();
       return data;
     } else {
@@ -19,6 +18,8 @@ const fetchWeather = async (zip) => {
     console.error(error);
   }
 };
+
+// BUGS: Invalid zip code returns undefined
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -36,6 +37,7 @@ module.exports = {
       if (zip.length !== 5)
         await interaction.reply("Invalid Input: Must contain 5 numbers");
       else {
+        await interaction.deferReply()
         await fetchWeather(zip).then((data) => {
           let weather = {
             location: {},
@@ -47,7 +49,6 @@ module.exports = {
               weather.location.name = data[i]["name"];
               weather.location.region = data[i]["region"];
               weather.location.country = data[i]["country"];
-              //console.log(`${location.name}, ${location.region}, ${location.country}`);
             } else if (i === "current") {
               weather.current.temp_c = data[i]["temp_c"].toString();
               weather.current.temp_f = data[i]["temp_f"].toString();
@@ -82,7 +83,9 @@ module.exports = {
           const windString = `Winds: ${wind_mph}mph ${wind_dir}`;
           const conditionString = `${conditionText} - ${conditionIcon}`;
 
-          interaction.reply(`\n${locationString}\n${tempString}\n${conditionString}\n${windString}\n`);
+          //interaction.reply(`\n${locationString}\n${tempString}\n${conditionString}\n${windString}\n`);
+
+          interaction.editReply(`\n${locationString}\n${tempString}\n${conditionString}\n${windString}\n`)
         });
       }
     } catch (error) {

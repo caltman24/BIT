@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -6,6 +7,7 @@ module.exports = {
     .setDescription("Measures the johnson"),
   async execute(interaction) {
     const getRandomNum = (max) => Math.floor(Math.random() * max) + 1;
+    const embed = new MessageEmbed().setColor("AQUA");
 
     let base = ["8", "D"];
     let randomNum = getRandomNum(12);
@@ -15,12 +17,16 @@ module.exports = {
     }
 
     const result = base.join("");
+    embed.setTitle(result);
 
-    if (randomNum <= 2) await interaction.reply(`${result}\nLMAO`);
-    else if (randomNum > 2 && randomNum <= 4)
-      await interaction.reply(`${result}\nTic Tac Chump`);
-    else if (randomNum > 4 && randomNum <= 7)
-      await interaction.reply(`${result}\nAverage.....`);
-    else await interaction.reply(`${result}\nDamn u packin!`);
+    if (randomNum <= 2) {
+      embed.setDescription("LMAO");
+    } else if (randomNum > 2 && randomNum <= 4) {
+      embed.setDescription("Tic Tac Chump");
+    } else if (randomNum > 4 && randomNum <= 6) {
+      embed.setDescription("Average.....");
+    } else embed.setDescription("Damn u packin!");
+
+    await interaction.reply({ embeds: [embed] });
   },
 };
