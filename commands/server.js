@@ -6,8 +6,9 @@ module.exports = {
     .setName("server")
     .setDescription("Replies with server info"),
   async execute(interaction) {
+    const embedColor = "#00ff99"
     const embed = new MessageEmbed()
-      .setColor("#00ff99")
+      .setColor(embedColor)
       .setTitle(interaction.guild.name)
       .addField("Member Count:", interaction.guild.memberCount.toString())
     await interaction.reply(

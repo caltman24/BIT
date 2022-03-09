@@ -7,7 +7,8 @@ module.exports = {
     .setDescription("Measures the johnson"),
   async execute(interaction) {
     const getRandomNum = (max) => Math.floor(Math.random() * max) + 1;
-    const embed = new MessageEmbed().setColor("#00ff99");
+    const embedColor = "#00ff99"
+    const embed = new MessageEmbed().setColor(embedColor);
 
     let base = ["8", "D"];
     let randomNum = getRandomNum(12);

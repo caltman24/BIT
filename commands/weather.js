@@ -33,7 +33,8 @@ module.exports = {
 
   async execute(interaction) {
     const zip = interaction.options.getInteger("zip").toString();
-    const embed = new MessageEmbed().setColor("#00ff99");
+    const embedColor = "#00ff99"
+    const embed = new MessageEmbed().setColor(embedColor);
 
     try {
       if (zip.length !== 5) {
