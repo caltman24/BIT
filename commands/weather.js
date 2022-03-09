@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed, Message } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 require("dotenv").config();
 const fetch = require("cross-fetch");
 const API_KEY = process.env.API_KEY;
@@ -99,6 +99,7 @@ module.exports = {
               { name: "Condition", value: conditionText, inline: true }
             );
             embed.setTimestamp();
+
             interaction.editReply({ embeds: [embed] });
           }
         });
