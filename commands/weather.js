@@ -87,7 +87,6 @@ module.exports = {
             const locationString = `${name}, ${region}, ${country}`;
             const tempString = `${temp_f}${degreeCode}F (${temp_c}${degreeCode}C)\nFeels Like: ${feelslike_f}${degreeCode}F (${feelslike_c}${degreeCode}C)`;
 
-            //interaction.reply(`\n${locationString}\n${tempString}\n${conditionString}\n${windString}\n`);
             embed.setTitle(locationString);
             embed.setThumbnail("https:" + conditionIcon);
             embed.addFields(
