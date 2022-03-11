@@ -1,24 +1,8 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
 require("dotenv").config();
-const fetch = require("cross-fetch");
+const { fetchWeather } = require("../API/fetchweather");
 const API_KEY = process.env.API_KEY;
-
-const fetchWeather = async (zip) => {
-  try {
-    const res = await fetch(
-      `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${zip}&aqi=no`
-    );
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    } else {
-      console.log("Not Successful", res.status);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 module.exports = {
   data: new SlashCommandBuilder()
