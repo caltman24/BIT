@@ -2,7 +2,6 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
 require("dotenv").config();
 const { fetchWeather } = require("../API/fetchweather");
-const API_KEY = process.env.API_KEY;
 
 module.exports = {
   data: new SlashCommandBuilder()
