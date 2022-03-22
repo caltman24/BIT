@@ -32,13 +32,12 @@ module.exports = {
       targetChannel.clone({ position: channelPosition });
       targetChannel
         .delete()
-        .then(interaction.reply({ embeds: [embed], ephemeral: true }));
+        .then(interaction.reply({ embeds: [embed] }));
     } else {
       // If member doesn't have permissiom
       embed.setDescription("You do not have permission to manage channels");
       await interaction.reply({
         embeds: [embed],
-        ephemeral: true,
       });
     }
   },
