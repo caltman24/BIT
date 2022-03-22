@@ -26,6 +26,6 @@ const rest = new REST({ version: "9" }).setToken(token);
 // Guild commands update instantly: Routes.applicationGuildCommands(clientId, guildId)
 // Use guild commands when under development
 rest
-  .put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
-  .then(() => console.log("Successfully registered application commands."))
+  .put(Routes.applicationCommands(clientId), { body: commands })
+  .then(() => console.log("Successfully registered global application commands."))
   .catch(console.error);
