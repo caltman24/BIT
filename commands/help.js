@@ -38,7 +38,7 @@ const getRow = (id) => {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("help")
-    .setDescription("List of all allCommands"),
+    .setDescription("List of all all commands"),
 
   async execute(interaction) {
     // Loop through command directory to get all command data (similar to command handling)
