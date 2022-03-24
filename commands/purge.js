@@ -37,7 +37,7 @@ module.exports = {
       // If member doesn't have permissiom
       embed.setDescription("You do not have permission to manage channels");
       await interaction.reply({
-        embeds: [embed],
+        embeds: [embed]
       });
     }
   },
