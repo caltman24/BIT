@@ -64,7 +64,6 @@ module.exports = {
     const id = interaction.user.id;
     const channel = interaction.channel;
     pages[id] = pages[id] || 0;
-    console.log(pages);
 
     const embed = embeds[pages[id]];
     let collector;
@@ -130,7 +129,6 @@ module.exports = {
           components: [getRow(id)],
         });
       }
-      console.log(pages);
     });
   },
 };
