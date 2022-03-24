@@ -1,3 +1,7 @@
+/*
+  BOT_TEST: CHANGE TOKEN AND CLIENT_ID WHEN GOING TO PRODUCTION
+*/
+
 const fs = require("node:fs"); // Node's native file system
 const { Client, Collection, Intents } = require("discord.js");
 require("dotenv").config();

@@ -35,10 +35,10 @@ module.exports = {
           await interaction.channel.messages
             .fetch({ limit: amount })
             .then((messages) => {
-              const userMessages = [];
+              const userMessages = []; //store userMessages
               messages
-                .filter((m) => m.author.id === user.id)
-                .forEach((message) => userMessages.push(message));
+                .filter((m) => m.author.id === user.id) // filter each message by target user
+                .forEach((message) => userMessages.push(message)); // push each user msg to userMessages[]
 
               interaction.channel.bulkDelete(userMessages).then((msg) => {
                 if (msg.size === 1) {
@@ -81,6 +81,7 @@ module.exports = {
             });
         }
       } else {
+        // No permission
         embed.setDescription("You do not have permission to manage messages");
         await interaction.reply({
           embeds: [embed],
@@ -88,6 +89,7 @@ module.exports = {
         });
       }
     } else {
+      // Entered amount = 0
       embed.setDescription("Entered amount must be greater than 0");
       await interaction.reply({
         embeds: [embed],
