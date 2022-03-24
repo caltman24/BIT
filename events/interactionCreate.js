@@ -7,7 +7,13 @@ module.exports = {
     if (!command) return;
     try {
       console.log(
-        `[+] ${interaction.user.tag} in #${interaction.channel.name} triggered a command: /${interaction.commandName}`
+        `[ Command Interaction ] {\n` +
+          `    Command: /${interaction.commandName}\n` +
+          `    User: ${interaction.user.tag},\n` +
+          `    UserId: ${interaction.user.id},\n` +
+          `    Guild: ${interaction.guild},\n` +
+          `    Channel: #${interaction.channel.name},\n` +
+          `}`
       );
       await command.execute(interaction);
     } catch (err) {
