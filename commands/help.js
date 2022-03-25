@@ -96,7 +96,7 @@ module.exports = {
     });
 
     // Button Event listener
-    collector = reply.createMessageComponentCollector({ filter, time });
+    collector = reply.createMessageComponentCollector({ filter });
 
     collector.on("collect", (btnInteraction) => {
       if (!btnInteraction) {
