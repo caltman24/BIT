@@ -17,7 +17,7 @@ module.exports = {
       embeds.push(
         new MessageEmbed()
           .setColor(embedColor)
-          .setFooter({ text: `Page ${i} | This message will delete in 5 min` })
+          .setFooter({ text: `Page ${i} | This message will be deleted after 5 min` })
       );
       if (i === 1) {
         embeds[i - 1].setTitle("List of commands: ");
@@ -92,6 +92,7 @@ module.exports = {
       embeds: [embed],
       components: [getRow(id)],
       fetchReply: true,
+      ephemeral: true
     });
 
     // Button Event listener
@@ -122,11 +123,8 @@ module.exports = {
       interaction.editReply({
         embeds: [embeds[pages[id]]],
         components: [getRow(id)],
+        ephemeral: true
       });
     });
-    const deleteTime = 1000 * 60 * 5;
-    setTimeout(() => {
-      reply.delete();
-    }, deleteTime);
   },
 };
