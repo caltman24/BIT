@@ -85,9 +85,6 @@ module.exports = {
       });
     }
 
-    const filter = (i) => id === i.user.id;
-    const time = 1000 * 60 * 5;
-
     // Reply
     reply = await interaction.reply({
       embeds: [embed],
@@ -96,6 +93,7 @@ module.exports = {
     });
 
     // Button Event listener
+    const filter = (i) => id === i.user.id;
     collector = reply.createMessageComponentCollector({ filter });
 
     collector.on("collect", (btnInteraction) => {
