@@ -41,7 +41,6 @@ module.exports = {
       return row;
     };
 
-
     // Loop through command directory to get all command data (similar to command handling)
     const allCommands = []; // allCommands[] contain data for all comands (name & description)
     const commandFiles = fs
@@ -63,7 +62,6 @@ module.exports = {
 
     // Page setup
     const id = interaction.user.id;
-    const channel = interaction.channel;
     pages[id] = pages[id] || 0;
 
     const embed = embeds[pages[id]];
@@ -121,17 +119,10 @@ module.exports = {
         ++pages[id];
       }
 
-      if (reply) {
-        reply.edit({
-          embeds: [embeds[pages[id]]],
-          components: [getRow(id)],
-        });
-      } else {
-        interaction.editReply({
-          embeds: [embeds[pages[id]]],
-          components: [getRow(id)],
-        });
-      }
+      interaction.editReply({
+        embeds: [embeds[pages[id]]],
+        components: [getRow(id)],
+      });
     });
   },
 };
