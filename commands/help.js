@@ -2,45 +2,46 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const fs = require("node:fs");
 
-// Embed Pages
-const embedColor = "#00ff99";
-const embeds = [];
-const pages = {}; // { userId: pageNumber }
-// create 2 message embeds and push to embeds[]
-for (let i = 1; i <= 2; i++) {
-  embeds.push(
-    new MessageEmbed().setColor(embedColor).setFooter({ text: `Page ${i}` })
-  );
-  if (i === 1) {
-    embeds[i - 1].setTitle("List of commands: ");
-  }
-}
-
-// Button Componets Row
-const getRow = (id) => {
-  const row = new MessageActionRow().addComponents([
-    new MessageButton()
-      .setCustomId("back")
-      .setLabel("Back")
-      .setEmoji("⬅️")
-      .setStyle("PRIMARY")
-      .setDisabled(pages[id] === 0), // Disable back button if at page 0
-    new MessageButton()
-      .setCustomId("next")
-      .setLabel("Next")
-      .setEmoji("➡️")
-      .setStyle("PRIMARY")
-      .setDisabled(pages[id] === embeds.length - 1), // Disable next button if at last page
-  ]);
-  return row;
-};
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("help")
     .setDescription("List of all commands"),
 
   async execute(interaction) {
+    // Embed Pages
+    const embedColor = "#00ff99";
+    const embeds = [];
+    const pages = {}; // { userId: pageNumber }
+    // create 2 message embeds and push to embeds[]
+    for (let i = 1; i <= 2; i++) {
+      embeds.push(
+        new MessageEmbed().setColor(embedColor).setFooter({ text: `Page ${i}` })
+      );
+      if (i === 1) {
+        embeds[i - 1].setTitle("List of commands: ");
+      }
+    }
+
+    // Button Componets Row
+    const getRow = (id) => {
+      const row = new MessageActionRow().addComponents([
+        new MessageButton()
+          .setCustomId("back")
+          .setLabel("Back")
+          .setEmoji("⬅️")
+          .setStyle("PRIMARY")
+          .setDisabled(pages[id] === 0), // Disable back button if at page 0
+        new MessageButton()
+          .setCustomId("next")
+          .setLabel("Next")
+          .setEmoji("➡️")
+          .setStyle("PRIMARY")
+          .setDisabled(pages[id] === embeds.length - 1), // Disable next button if at last page
+      ]);
+      return row;
+    };
+
+
     // Loop through command directory to get all command data (similar to command handling)
     const allCommands = []; // allCommands[] contain data for all comands (name & description)
     const commandFiles = fs
@@ -54,7 +55,7 @@ module.exports = {
     // amount of commands per page
     const pageSize = 5;
 
-    // split allCommands[] into arrays with lengths of 5 (pages)
+    // split allCommands[] into arrays with lengths of pageSize
     const commandPages = [];
     for (let i = 0; i < allCommands.length; i += pageSize) {
       commandPages.push(allCommands.slice(i, i + pageSize));
@@ -94,6 +95,7 @@ module.exports = {
     reply = await interaction.reply({
       embeds: [embed],
       components: [getRow(id)],
+      fetchReply: true,
     });
 
     collector = channel.createMessageComponentCollector({ filter, time });
@@ -118,6 +120,7 @@ module.exports = {
       ) {
         ++pages[id];
       }
+
       if (reply) {
         reply.edit({
           embeds: [embeds[pages[id]]],
