@@ -87,7 +87,6 @@ module.exports = {
       });
     }
 
-    // Button Event listener
     const filter = (i) => id === i.user.id;
     const time = 1000 * 60 * 5;
 
@@ -98,6 +97,7 @@ module.exports = {
       fetchReply: true,
     });
 
+    // Button Event listener
     collector = channel.createMessageComponentCollector({ filter, time });
 
     collector.on("collect", (btnInteraction) => {
