@@ -88,13 +88,6 @@ module.exports = {
     }
 
     const filter = (i) => id === i.user.id;
-    const filterMessage = (m) => m.author.id == interaction.user.id
-    const messageCollector = channel.createMessageCollector({filterMessage, time: 60 * 1000, max: 1})
-    messageCollector.on('end', collected => {
-      if (collected.size > 0) {
-        collected.forEach(m => console.log(m))
-      }
-    })
     const time = 1000 * 60 * 5;
 
     // Reply
@@ -105,7 +98,7 @@ module.exports = {
     });
 
     // Button Event listener
-    collector = channel.createMessageComponentCollector({ filter, time });
+    collector = reply.createMessageComponentCollector({ filter, time });
 
     collector.on("collect", (btnInteraction) => {
       if (!btnInteraction) {
