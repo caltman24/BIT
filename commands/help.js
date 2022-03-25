@@ -15,7 +15,9 @@ module.exports = {
     // create 2 message embeds and push to embeds[]
     for (let i = 1; i <= 2; i++) {
       embeds.push(
-        new MessageEmbed().setColor(embedColor).setFooter({ text: `Page ${i}` })
+        new MessageEmbed()
+          .setColor(embedColor)
+          .setFooter({ text: `Page ${i} | This message will delete in 5 min` })
       );
       if (i === 1) {
         embeds[i - 1].setTitle("List of commands: ");
@@ -122,5 +124,9 @@ module.exports = {
         components: [getRow(id)],
       });
     });
+    const deleteTime = 1000 * 60 * 5;
+    setTimeout(() => {
+      reply.delete();
+    }, deleteTime);
   },
 };
