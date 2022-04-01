@@ -5,6 +5,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { Permissions } = require("discord.js");
 const { MessageEmbed } = require("discord.js");
 
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("clearchat")
@@ -16,6 +17,8 @@ module.exports = {
         .setRequired(true)
     )
     .addUserOption((option) => option.setName("target").setDescription("user")),
+  // Set Permissions - new Permissions(bitfield).toArray()
+  permissions: new Permissions(Permissions.FLAGS.MANAGE_MESSAGES).toArray(),
 
   async execute(interaction) {
     // Add embed
@@ -26,67 +29,55 @@ module.exports = {
     const amount = interaction.options.getInteger("amount");
     const user = interaction.options.getUser("target");
     if (amount > 0) {
-      // Check if user has "MANAGE_MESSAGE" permission
-      if (
-        interaction.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)
-      ) {
-        // Check if target user exists
-        if (user) {
-          await interaction.channel.messages
-            .fetch({ limit: amount })
-            .then((messages) => {
-              const userMessages = []; //store userMessages
-              messages
-                .filter((m) => m.author.id === user.id) // filter each message by target user
-                .forEach((message) => userMessages.push(message)); // push each user msg to userMessages[]
+      // Check if target user exists
+      if (user) {
+        await interaction.channel.messages
+          .fetch({ limit: amount })
+          .then((messages) => {
+            const userMessages = []; //store userMessages
+            messages
+              .filter((m) => m.author.id === user.id) // filter each message by target user
+              .forEach((message) => userMessages.push(message)); // push each user msg to userMessages[]
 
-              interaction.channel.bulkDelete(userMessages).then((msg) => {
-                if (msg.size === 1) {
-                  embed.setTitle(
-                    `Deleted the last ${msg.size} message from ${user.tag}`
-                  );
-                  interaction.reply({
-                    embeds: [embed],
-                    ephemeral: true,
-                  });
-                } else {
-                  embed.setTitle(
-                    `Deleted the last ${msg.size} messages from ${user.tag}`
-                  );
-                  interaction.reply({
-                    embeds: [embed],
-                    ephemeral: true,
-                  });
-                }
-              });
-            });
-        } else {
-          // If no target user
-          await interaction.channel
-            .bulkDelete(amount) // Bulk delete messsages within the channel with given amount
-            .then((messages) => {
-              if (messages.size === 1) {
-                embed.setTitle(`Deleted the last ${messages.size} message`);
+            interaction.channel.bulkDelete(userMessages).then((msg) => {
+              if (msg.size === 1) {
+                embed.setTitle(
+                  `Deleted the last ${msg.size} message from ${user.tag}`
+                );
                 interaction.reply({
                   embeds: [embed],
                   ephemeral: true,
                 });
               } else {
-                embed.setTitle(`Deleted the last ${messages.size} messages`);
+                embed.setTitle(
+                  `Deleted the last ${msg.size} messages from ${user.tag}`
+                );
                 interaction.reply({
                   embeds: [embed],
                   ephemeral: true,
                 });
               }
             });
-        }
+          });
       } else {
-        // No permission
-        embed.setDescription("You do not have permission to manage messages");
-        await interaction.reply({
-          embeds: [embed],
-          ephemeral: true,
-        });
+        // If no target user
+        await interaction.channel
+          .bulkDelete(amount) // Bulk delete messsages within the channel with given amount
+          .then((messages) => {
+            if (messages.size === 1) {
+              embed.setTitle(`Deleted the last ${messages.size} message`);
+              interaction.reply({
+                embeds: [embed],
+                ephemeral: true,
+              });
+            } else {
+              embed.setTitle(`Deleted the last ${messages.size} messages`);
+              interaction.reply({
+                embeds: [embed],
+                ephemeral: true,
+              });
+            }
+          });
       }
     } else {
       // Entered amount = 0

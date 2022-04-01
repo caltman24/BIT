@@ -1,3 +1,7 @@
+/* 
+  Required Permission(s): ["MANAGE_MESSAGES", "MANAGE_CHANNELS"]
+*/
+
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
 const { Permissions } = require("discord.js");
@@ -13,32 +17,22 @@ module.exports = {
         .addChannelType(0) //GUILD_TEXT = 0
         .setRequired(true)
     ),
+  permissions: new Permissions([
+    Permissions.FLAGS.MANAGE_MESSAGES,
+    Permissions.FLAGS.MANAGE_CHANNELS,
+  ]).toArray(),
+
   async execute(interaction) {
     const embedColor = "#00ff99";
     const embed = new MessageEmbed().setColor(embedColor);
-    /*
-    if user has permission:
-      save target channel position
-      clone target channel at current position
-      delete target channel
-    */
-    if (interaction.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) {
-      const targetChannel = interaction.options.getChannel("channel");
-      const channelPosition = targetChannel.position;
 
-      embed.setTitle("Purged:");
-      embed.setDescription(`#${targetChannel.name}`);
+    const targetChannel = interaction.options.getChannel("channel");
+    const channelPosition = targetChannel.position;
 
-      targetChannel.clone({ position: channelPosition });
-      targetChannel
-        .delete()
-        .then(interaction.reply({ embeds: [embed] }));
-    } else {
-      // If member doesn't have permissiom
-      embed.setDescription("You do not have permission to manage channels");
-      await interaction.reply({
-        embeds: [embed]
-      });
-    }
+    embed.setTitle("Purged:");
+    embed.setDescription(`#${targetChannel.name}`);
+
+    targetChannel.clone({ position: channelPosition });
+    targetChannel.delete().then(interaction.reply({ embeds: [embed] }));
   },
 };
