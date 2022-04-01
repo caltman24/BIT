@@ -5,11 +5,12 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { Permissions } = require("discord.js");
 const { MessageEmbed } = require("discord.js");
 
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("clearchat")
-    .setDescription("Clears chat with specified amount (Max 100)")
+    .setDescription(
+      "Clears chat with specified amount (Max 100)\nPermissions: MANAGE_MESSAGES"
+    )
     .addIntegerOption((option) =>
       option
         .setName("amount")

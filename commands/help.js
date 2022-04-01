@@ -17,7 +17,7 @@ module.exports = {
       embeds.push(
         new MessageEmbed()
           .setColor(embedColor)
-          .setFooter({ text: `Page ${i} | This message will be deleted after 5 min` })
+          .setFooter({ text: `Page ${i}` })
       );
       if (i === 1) {
         embeds[i - 1].setTitle("List of commands: ");

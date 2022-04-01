@@ -9,7 +9,7 @@ const { Permissions } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("purge")
-    .setDescription("Clears whole channel")
+    .setDescription("Clears whole channel\nPermissions: MANAGE_MESSAGES | MANAGE_CHANNELS")
     .addChannelOption((option) =>
       option
         .setName("channel")
