@@ -16,7 +16,7 @@ module.exports = {
     const canvas = Canvas.createCanvas(960, 500);
     const context = canvas.getContext("2d");
 
-    const background = await Canvas.loadImage("./Images/slap.jpg");
+    const background = await Canvas.loadImage("./Images/smith-slap.jpg");
     context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
     const avatar = await Canvas.loadImage(
@@ -26,8 +26,8 @@ module.exports = {
       targetUser.displayAvatarURL({ format: "jpg" })
     );
 
-    context.drawImage(avatar, 350, 50, 175, 175);
-    context.drawImage(targetAvatar, 600, 250, 175, 175);
+    context.drawImage(avatar, 535, 70, 115, 115);
+    context.drawImage(targetAvatar, 300, 50, 115, 115);
 
     const attachment = new MessageAttachment(canvas.toBuffer(), "slapped.png");
     await interaction.editReply({ 
