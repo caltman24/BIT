@@ -31,7 +31,7 @@ module.exports = {
 
     const attachment = new MessageAttachment(canvas.toBuffer(), "slapped.png");
     await interaction.editReply({ 
-        content: `<@${targetUser.id}>`,
+        content: `${interaction.user.username} slapped <@${targetUser.id}>!`,
         files: [attachment] 
     });
   },
