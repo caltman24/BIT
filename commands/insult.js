@@ -6,8 +6,9 @@ module.exports = {
     .setName("insult")
     .setDescription("Get insulted by BIT"),
   async execute(interaction) {
+    await interaction.deferReply();
     await fetchInsult().then((insult) => {
-      interaction.reply(`<@${interaction.user.id}> ${insult.content}`);
+      interaction.editReply(`<@${interaction.user.id}> ${insult.content}`);
     });
   },
 };
