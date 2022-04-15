@@ -49,7 +49,7 @@ module.exports = {
     for (const file of commandFiles) {
       const command = require(`./${file}`);
       if (
-        command.data.name === "dev" &&
+        command.data.name !== "dev" &&
         command.data.defaultPermission === undefined
       ) {
         allCommands.push(command.data.toJSON());
