@@ -18,11 +18,13 @@ module.exports = {
         }
       }
       console.log(
-        `[ Command Interaction ] {\n` +
+        `[ Command ] {\n` +
           `    Command: /${interaction.commandName}\n` +
+          `    CommandID: ${interaction.commandId}\n` +
           `    User: ${interaction.user.tag},\n` +
           `    UserId: ${interaction.user.id},\n` +
           `    Guild: ${interaction.guild},\n` +
+          `    GuildID: ${interaction.guild.id},\n` +
           `    Channel: #${interaction.channel.name},\n` +
           `}`
       );
