@@ -15,9 +15,7 @@ module.exports = {
     // create 2 message embeds and push to embeds[]
     for (let i = 1; i <= 2; i++) {
       embeds.push(
-        new MessageEmbed()
-          .setColor(embedColor)
-          .setFooter({ text: `Page ${i}` })
+        new MessageEmbed().setColor(embedColor).setFooter({ text: `Page ${i}` })
       );
       if (i === 1) {
         embeds[i - 1].setTitle("List of commands: ");
@@ -50,7 +48,12 @@ module.exports = {
       .filter((file) => file.endsWith(".js"));
     for (const file of commandFiles) {
       const command = require(`./${file}`);
-      allCommands.push(command.data.toJSON());
+      if (
+        command.data.name === "dev" &&
+        command.data.defaultPermission === undefined
+      ) {
+        allCommands.push(command.data.toJSON());
+      }
     }
 
     // amount of commands per page
@@ -92,7 +95,7 @@ module.exports = {
       embeds: [embed],
       components: [getRow(id)],
       fetchReply: true,
-      ephemeral: true
+      ephemeral: true,
     });
 
     // Button Event listener
@@ -123,7 +126,7 @@ module.exports = {
       interaction.editReply({
         embeds: [embeds[pages[id]]],
         components: [getRow(id)],
-        ephemeral: true
+        ephemeral: true,
       });
     });
   },
