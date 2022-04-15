@@ -8,20 +8,6 @@ module.exports = {
     .setDescription("List of all commands"),
 
   async execute(interaction) {
-    // Embed Pages
-    const embedColor = "#00ff99";
-    const embeds = [];
-    const pages = {}; // { userId: pageNumber }
-    // create 2 message embeds and push to embeds[]
-    for (let i = 1; i <= 2; i++) {
-      embeds.push(
-        new MessageEmbed().setColor(embedColor).setFooter({ text: `Page ${i}` })
-      );
-      if (i === 1) {
-        embeds[i - 1].setTitle("List of commands: ");
-      }
-    }
-
     // Button Componets Row
     const getRow = (id) => {
       const row = new MessageActionRow().addComponents([
@@ -58,37 +44,45 @@ module.exports = {
 
     // amount of commands per page
     const pageSize = 5;
-
     // split allCommands[] into arrays with lengths of pageSize
     const commandPages = [];
     for (let i = 0; i < allCommands.length; i += pageSize) {
       commandPages.push(allCommands.slice(i, i + pageSize));
     }
 
+    // Embed Pages
+    const embedColor = "#00ff99";
+    const embeds = [];
+    const pages = {}; // { userId: pageNumber }
+  
+    // create an embed for each commandPage and push the embeds into embeds[] array
+    for (let i = 1; i <= commandPages.length; i++) {
+      embeds.push(
+        new MessageEmbed().setColor(embedColor).setFooter({ text: `Page ${i}` })
+      );
+      if (i === 1) {
+        embeds[i - 1].setTitle("List of commands: ");
+      }
+    }
+
+   
+    // loop through pages to display command data to embeds
+    for (let i = 0; i < commandPages.length; i++) {
+      for (let j = 0; j < commandPages[i].length; j++) {
+        const command = commandPages[i][j];
+        embeds[i].addFields({
+          name: `/${command.name}`,
+          value: command.description,
+        });
+      }
+    }
+ 
     // Page setup
     const id = interaction.user.id;
     pages[id] = pages[id] || 0;
 
     const embed = embeds[pages[id]];
     let collector;
-
-    // loop through pages to display command data to embeds
-    // Page 1
-    for (let i = 0; i < commandPages[0].length; i++) {
-      const command = commandPages[0][i];
-      embeds[0].addFields({
-        name: `/${command.name}`,
-        value: command.description,
-      });
-    }
-    // Page 2
-    for (let i = 0; i < commandPages[1].length; i++) {
-      const command = commandPages[1][i];
-      embeds[1].addFields({
-        name: `/${command.name}`,
-        value: command.description,
-      });
-    }
 
     // Reply
     reply = await interaction.reply({
