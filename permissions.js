@@ -1,7 +1,7 @@
 module.exports = [
   {
     // Dev command ID
-    id: "964389651794231336",
+    id: "964398675231125535",
     permissions: [
       {
         id: "167781726117036032",
