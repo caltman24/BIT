@@ -10,24 +10,15 @@ module.exports = {
       if (command.permissions && command.permissions.length > 0) {
         // Check if member does not have permissions
         if (!interaction.member.permissions.has(command.permissions)) {
-          console.log(command.permissions)
-          return await interaction.reply({ 
-            content: `You do not have permission to use this command.\nRequired: ${command.permissions.join(' | ')}`,
-            ephemeral: true
-          })
+          console.log(command.permissions);
+          return await interaction.reply({
+            content: `You do not have permission to use this command.\nRequired: ${command.permissions.join(
+              " | "
+            )}`,
+            ephemeral: true,
+          });
         }
       }
-      console.log(
-        `[ Command ] {\n` +
-          `    Command: /${interaction.commandName}\n` +
-          `    CommandID: ${interaction.commandId}\n` +
-          `    User: ${interaction.user.tag},\n` +
-          `    UserId: ${interaction.user.id},\n` +
-          `    Guild: ${interaction.guild},\n` +
-          `    GuildID: ${interaction.guild.id},\n` +
-          `    Channel: #${interaction.channel.name},\n` +
-          `}`
-      );
       await command.execute(interaction);
     } catch (err) {
       console.error(err);
